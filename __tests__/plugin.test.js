@@ -31,9 +31,9 @@ describe('babel plugin', () => {
 
   it("doesn't bother other debugger statements", () => {
     const input = `
-    debugger;
-    var foo = 'bar';
-  `;
+      debugger;
+      var foo = 'bar';
+    `;
 
     const { code } = runPlugin(input, {});
     expect(code).toContain('debugger');
