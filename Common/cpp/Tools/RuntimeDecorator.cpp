@@ -59,6 +59,30 @@ void RuntimeDecorator::decorateRuntime(
     }
 
     return rt.evaluateJavaScript(code, url);
+    
+  auto setGlobalConsole = [](jsi::Runtime &rt,
+                             const jsi::Value &thisValue,
+                             const jsi::Value *args,
+                             size_t count) -> jsi::Value {
+    rt.global().setProperty(rt, "console", args[0]);
+    return jsi::Value::undefined();
+  };
+  rt.global().setProperty(
+      rt,
+      "_setGlobalConsole",
+      jsi::Function::createFromHostFunction(
+          rt,
+          jsi::PropNameID::forAscii(rt, "_setGlobalConsole"),
+          1,
+          setGlobalConsole));
+
+  auto chronoNow = [](jsi::Runtime &rt,
+                      const jsi::Value &thisValue,
+                      const jsi::Value *args,
+                      size_t count) -> jsi::Value {
+    double now = std::chrono::system_clock::now().time_since_epoch() /
+        std::chrono::milliseconds(1);
+    return jsi::Value(now);
   };
 
   rt.global().setProperty(

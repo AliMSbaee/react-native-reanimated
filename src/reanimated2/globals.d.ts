@@ -6,6 +6,7 @@ import type {
   ShareableRef,
   ShareableSyncDataHolderRef,
 } from './commonTypes';
+import type { ReanimatedConsole } from './core';
 import type { FrameCallbackRegistryUI } from './frameCallback/FrameCallbackRegistryUI';
 import type { ShadowNodeWrapper } from './hook/commonTypes';
 import { LayoutAnimationStartFunction } from './layoutReanimation';
@@ -22,6 +23,7 @@ declare global {
     sourceMap: string
   ) => any;
   const evalWithSourceUrl: (js: string, sourceURL: string) => any;
+  const _setGlobalConsole: (console?: ReanimatedConsole) => void;
   const _log: (s: string) => void;
   const _getCurrentTime: () => number;
   const _notifyAboutProgress: (
@@ -71,9 +73,6 @@ declare global {
     reportFatalError: (error: Error) => void;
   };
   const _frameCallbackRegistry: FrameCallbackRegistryUI;
-  const requestAnimationFrame: (callback: (time: number) => void) => number;
-  const setImmediate: (callback: (time: number) => void) => number;
-  const console: Console;
 
   namespace NodeJS {
     interface Global {
@@ -88,6 +87,7 @@ declare global {
         sourceMap: string
       ) => any;
       evalWithSourceUrl: (js: string, sourceURL: string) => any;
+      _setGlobalConsole: (console?: ReanimatedConsole) => void;
       _log: (s: string) => void;
       _getCurrentTime: () => number;
       _setGestureState: (handlerTag: number, newState: number) => void;

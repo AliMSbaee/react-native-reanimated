@@ -1,3 +1,4 @@
+/* global _setGlobalConsole */
 import NativeReanimatedModule from './NativeReanimated';
 import { nativeShouldBeMock, shouldBeUseWeb, isWeb } from './PlatformChecker';
 import {
@@ -23,6 +24,13 @@ import { initializeUIRuntime } from './initializers';
 
 export { stopMapper } from './mappers';
 export { runOnJS, runOnUI } from './threads';
+
+if (global._setGlobalConsole === undefined) {
+  // it can happen when Reanimated plugin wasn't added, but the user uses the only API from version 1
+  global._setGlobalConsole = () => {
+    // noop
+  };
+}
 
 export type ReanimatedConsole = Pick<
   Console,
@@ -63,11 +71,11 @@ export const isConfiguredCheck: () => void = () => {
 
 const configurationCheckWrapper = __DEV__
   ? <T extends Array<any>, U>(fn: (...args: T) => U) => {
-      return (...args: T): U => {
-        isConfigured(true);
-        return fn(...args);
-      };
-    }
+    return (...args: T): U => {
+      isConfigured(true);
+      return fn(...args);
+    };
+  }
   : <T extends Array<any>, U>(fn: (...args: T) => U) => fn;
 
 export const startMapper = __DEV__
@@ -182,6 +190,18 @@ export function unregisterSensor(listenerId: number): void {
 // initialize UI runtime if applicable
 if (!isWeb() && isConfigured()) {
   initializeUIRuntime();
+  const capturableConsole = console;
+  runOnUI(() => {
+    'worklet';
+    const console = {
+      debug: runOnJS(capturableConsole.debug),
+      log: runOnJS(capturableConsole.log),
+      warn: runOnJS(capturableConsole.warn),
+      error: runOnJS(capturableConsole.error),
+      info: runOnJS(capturableConsole.info),
+    };
+    _setGlobalConsole(console);
+  })();
 }
 
 type FeaturesConfig = {
