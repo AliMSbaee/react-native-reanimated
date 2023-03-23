@@ -21,6 +21,7 @@ import {
   LayoutAnimationType,
 } from './layoutReanimation';
 import { initializeUIRuntime } from './initializers';
+import { runOnJS, runOnUI } from './threads';
 
 export { stopMapper } from './mappers';
 export { runOnJS, runOnUI } from './threads';
