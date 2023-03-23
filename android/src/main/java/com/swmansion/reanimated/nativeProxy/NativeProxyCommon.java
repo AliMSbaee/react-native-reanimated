@@ -88,39 +88,39 @@ public abstract class NativeProxyCommon {
   }
 
   @DoNotStrip
-  public void requestRender(AnimationFrameCallback callback) {
+  private void requestRender(AnimationFrameCallback callback) {
     mNodesManager.postOnAnimation(callback);
   }
 
   @DoNotStrip
-  public void updateProps(int viewTag, Map<String, Object> props) {
+  private void updateProps(int viewTag, Map<String, Object> props) {
     mNodesManager.updateProps(viewTag, props);
   }
 
   @DoNotStrip
-  public void synchronouslyUpdateUIProps(int viewTag, ReadableMap uiProps) {
+  private void synchronouslyUpdateUIProps(int viewTag, ReadableMap uiProps) {
     mNodesManager.synchronouslyUpdateUIProps(viewTag, uiProps);
   }
 
   @DoNotStrip
-  public String obtainProp(int viewTag, String propName) {
+  private String obtainProp(int viewTag, String propName) {
     return mNodesManager.obtainProp(viewTag, propName);
   }
 
   @DoNotStrip
-  public void scrollTo(int viewTag, double x, double y, boolean animated) {
+  private void scrollTo(int viewTag, double x, double y, boolean animated) {
     mNodesManager.scrollTo(viewTag, x, y, animated);
   }
 
   @DoNotStrip
-  public void setGestureState(int handlerTag, int newState) {
+  private void setGestureState(int handlerTag, int newState) {
     if (gestureHandlerStateManager != null) {
       gestureHandlerStateManager.setGestureHandlerState(handlerTag, newState);
     }
   }
 
   @DoNotStrip
-  public long getCurrentTime() {
+  private long getCurrentTime() {
     if (slowAnimationsEnabled) {
       final long ANIMATIONS_DRAG_FACTOR = 10;
       return this.firstUptime
@@ -131,12 +131,12 @@ public abstract class NativeProxyCommon {
   }
 
   @DoNotStrip
-  public float[] measure(int viewTag) {
+  private float[] measure(int viewTag) {
     return mNodesManager.measure(viewTag);
   }
 
   @DoNotStrip
-  public void configureProps(ReadableNativeArray uiProps, ReadableNativeArray nativeProps) {
+  private void configureProps(ReadableNativeArray uiProps, ReadableNativeArray nativeProps) {
     Set<String> uiPropsSet = convertProps(uiProps);
     Set<String> nativePropsSet = convertProps(nativeProps);
     mNodesManager.configureProps(uiPropsSet, nativePropsSet);
@@ -152,31 +152,31 @@ public abstract class NativeProxyCommon {
   }
 
   @DoNotStrip
-  public void registerEventHandler(EventHandler handler) {
+  private void registerEventHandler(EventHandler handler) {
     handler.mCustomEventNamesResolver = mNodesManager.getEventNameResolver();
     mNodesManager.registerEventHandler(handler);
   }
 
   @DoNotStrip
-  public int registerSensor(int sensorType, int interval, SensorSetter setter) {
+  private int registerSensor(int sensorType, int interval, SensorSetter setter) {
     return reanimatedSensorContainer.registerSensor(
         ReanimatedSensorType.getInstanceById(sensorType), interval, setter);
   }
 
   @DoNotStrip
-  public void unregisterSensor(int sensorId) {
+  private void unregisterSensor(int sensorId) {
     reanimatedSensorContainer.unregisterSensor(sensorId);
   }
 
   @DoNotStrip
-  public int subscribeForKeyboardEvents(
+  private int subscribeForKeyboardEvents(
       KeyboardEventDataUpdater keyboardEventDataUpdater, boolean isStatusBarTranslucent) {
     return reanimatedKeyboardEventListener.subscribeForKeyboardEvents(
         keyboardEventDataUpdater, isStatusBarTranslucent);
   }
 
   @DoNotStrip
-  public void unsubscribeFromKeyboardEvents(int listenerId) {
+  private void unsubscribeFromKeyboardEvents(int listenerId) {
     reanimatedKeyboardEventListener.unsubscribeFromKeyboardEvents(listenerId);
   }
 

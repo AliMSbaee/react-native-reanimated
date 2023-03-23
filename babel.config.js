@@ -14,11 +14,5 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-class-properties',
     ['./plugin', { disableInlineStylesWarning: true }],
-    [
-      '@babel/plugin-transform-react-jsx',
-      {
-        runtime: 'classic',
-      },
-    ],
   ],
 };

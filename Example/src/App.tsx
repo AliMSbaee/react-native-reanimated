@@ -40,7 +40,6 @@ import AnimatedStyleUpdateExample from './AnimatedStyleUpdateExample';
 import AnimatedTabBarExample from './AnimatedTabBarExample';
 import ChatHeadsExample from './ChatHeadsExample';
 import DragAndSnapExample from './DragAndSnapExample';
-import { EmojiWaterfallExample } from './EmojiWaterfallExample';
 import ExtrapolationExample from './ExtrapolationExample';
 import FrameCallbackExample from './FrameCallbackExample';
 import InvertedFlatListExample from './InvertedFlatListExample';
@@ -305,10 +304,6 @@ const SCREENS: Screens = {
   InvertedFlatListExample: {
     screen: InvertedFlatListExample,
     title: 'Inverted FlatList Example',
-  },
-  EmojiWaterfallExample: {
-    screen: EmojiWaterfallExample,
-    title: 'Emoji Waterfall Example',
   },
 };
 

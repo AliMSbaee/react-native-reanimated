@@ -36,7 +36,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Nullable;
 
@@ -219,11 +218,13 @@ public class NodesManager implements EventDispatcherListener {
             }
           });
       if (trySynchronously) {
-        try {
-          semaphore.tryAcquire(16, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-          // if the thread is interruped we just continue and let the layout update happen
-          // asynchronously
+        while (true) {
+          try {
+            semaphore.acquire();
+            break;
+          } catch (InterruptedException e) {
+            // noop
+          }
         }
       }
     }
